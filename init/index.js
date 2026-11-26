@@ -8,9 +8,11 @@ main()
   .then(async () => {
     console.log("connected to DB");
     await initDB();
-    mongoose.connection.close();
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("Error:", err))
+  .finally(() => {
+    mongoose.connection.close();
+  });
 
 async function main() {
   await mongoose.connect(MONGO_URL);
