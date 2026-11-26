@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = "mongodb://127.0.0.1:27017/ReserveFlow";
 
 main()
-  .then(() => {
+  .then(async () => {
     console.log("connected to DB");
+    await initDB();
+    mongoose.connection.close();
   })
-  .catch((err) => {
-    console.log(err);
-  });
+  .catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(MONGO_URL);
@@ -19,7 +19,5 @@ async function main() {
 const initDB = async () => {
   await Listing.deleteMany({});
   await Listing.insertMany(initData.data);
-  console.log("data was initialized");
+  console.log("data has inserted");
 };
-
-initDB();
